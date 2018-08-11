@@ -43,7 +43,6 @@ function sendEmail(req, res) {
         sendgrid
             .request(sgRequest)
             .then(([response, body]) => {
-                console.log('service', response);
                 resolve([response, body]);
             })
             .catch(err => {

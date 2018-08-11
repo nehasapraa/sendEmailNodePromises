@@ -3,7 +3,7 @@ var mailgun = require('mailgun.js');
 const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY;
 const MAILGUN_TEST_DOMAIN = process.env.MAILGUN_TEST_DOMAIN;
 const MAILGUN_SENDER = process.env.SENDER;
-var MailgunService = mailgun.client({username: 'api', key: MAILGUN_API_KEY});
+var MailgunService = mailgun.client({'username': 'api', 'key': MAILGUN_API_KEY});
 
 function sendEmail(req, res) {
     var emails = req.body.email.split(",");
@@ -22,11 +22,15 @@ function sendEmail(req, res) {
     return new Promise((resolve, reject) => {
         MailgunService.messages.create(MAILGUN_TEST_DOMAIN, options)
             .then(msg => {
-                console.log('service', msg);
                 resolve(msg);
             })
             .catch(err => {
-                reject(`error sending ${JSON.stringify(err.response.body)}`);
+                reject(`error sending ${err.message}`);
+                res.render('error', {
+                    message: err.message,
+                    status: err.status,
+                });
+
             });
     });
 

@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+require('dotenv').config();
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -19,8 +20,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(cookieParser());
-var ssa= app.use(express.static(path.join(__dirname, 'public')));
-console.log('s',ssa);
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/', routes);
 
 
